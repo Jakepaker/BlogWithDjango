@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import Registration
+from .models import User
 
 # Create your views here.
 def HomeView(request):
@@ -17,10 +18,16 @@ def AboutView(request):
     return render(request, 'about.html')
 
 def RegisterView(request):
-    form = Registration()
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST["password"]
-        print(username, password)
-        return render(request, 'register.html', {"form": form})
+    form = Registration(request.POST)
+    # if request.method == 'POST':
+    #     username = request.POST.get('username')
+    #     password = request.POST["password"]
+    #     user.username = username
+    #     user.password = password
+    #     user.save()
+    #     return render(request, 'register.html', {"form": form})
+    if form.is_valid():
+        cleaned_form = form.clean()
+        User.objects.create(**cleaned_form)
+        return render(request, 'home.html')
     return render(request, 'register.html', {'form': form})
