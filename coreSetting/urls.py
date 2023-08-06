@@ -22,6 +22,7 @@ from django.urls import path, include
 urlpatterns = [
     path('superuser/', admin.site.urls),
     path('', include('blog.urls'), name='blogApp'),
+    path('account/',include('user.urls'),name='blogUser'),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
